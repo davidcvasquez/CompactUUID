@@ -26,29 +26,49 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-
-      # Optional, but helps you see what Swift you're using in CI
       - name: Swift version
         run: |
           xcodebuild -version
           swift --version
 
-      - name: Build DocC
+      - name: List schemes
+        run: xcodebuild -list
+        
+      # Build a DocC archive using Xcode's docbuild action.
+      - name: Build DocC archive
         run: |
           set -euo pipefail
-          DOCS_DIR=".build/docc"
+          # For Swift packages, this works when the package is opened by Xcode.
+          xcodebuild docbuild \
+            -scheme CompactUUID \
+            -destination "generic/platform=macOS" \
+            -derivedDataPath .build/DerivedData
 
-          swift package \
-            --allow-writing-to-directory "${DOCS_DIR}" \
-            generate-documentation \
-            --target CompactUUID \
-            --output-path "${DOCS_DIR}" \
-            --transform-for-static-hosting
+      # Transform the .doccarchive into a static site for GitHub Pages.
+      - name: Transform for static hosting
+        run: |
+          set -euo pipefail
 
-          # DocC outputs an index.html at the root when transformed for static hosting.
-          test -f "${DOCS_DIR}/index.html"
+          ARCHIVE_PATH="$(find .build/DerivedData -type d -name "*.doccarchive" | head -n 1)"
+          if [[ -z "${ARCHIVE_PATH}" ]]; then
+            echo "ERROR: No .doccarchive found under .build/DerivedData"
+            find .build/DerivedData -maxdepth 6 -type d -name "*.doccarchive" -print || true
+            exit 1
+          fi
+
+          echo "Found DocC archive: ${ARCHIVE_PATH}"
+
+          OUTPUT_DIR=".build/docc-site"
+          rm -rf "${OUTPUT_DIR}"
+          mkdir -p "${OUTPUT_DIR}"
+
+          # 'docc' is bundled with Xcode.
+          xcrun docc process-archive transform-for-static-hosting \
+            "${ARCHIVE_PATH}" \
+            --output-path "${OUTPUT_DIR}" \
+            --hosting-base-path "CompactUUID"
+
+          test -f "${OUTPUT_DIR}/index.html"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
