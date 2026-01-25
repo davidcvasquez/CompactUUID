@@ -3,9 +3,14 @@ import PackageDescription
 
 let package = Package(
     name: "CompactUUID",
+    platforms: [
+        .macOS(.v15),
+        .iOS(.v15),
+        .tvOS(.v15),
+        .watchOS(.v8)
+    ],
     products: [
-        .library(
-            name: "CompactUUID", targets: ["CompactUUID"])
+        .library(name: "CompactUUID", targets: ["CompactUUID"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
