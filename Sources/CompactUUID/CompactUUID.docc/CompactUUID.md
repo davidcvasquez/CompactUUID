@@ -11,7 +11,13 @@ Generate compact string representations of `UUID`, with multiple alphabets for h
 - Encode a known `UUID` to a compact ID with ``CompactUUIDGenerator/fromUUID(_:)``
 - The available formats are enumerated by ``CompactUUIDGenerator/Format``
 
-For convenience, the library also includes `String` factory properties for common formats that enable the use of compact dot notation. For example, ``Swift/String/idBase58``.
+For convenience, the library also includes `String` factory properties for common formats that enable the use of compact dot notation. For example, ``Swift/String/idBase58``\:
+
+```Swift
+struct MyType: Identifiable {
+    let id: UUIDBase58 = .idBase58
+}
+```
 
 ## Choosing a format
 
