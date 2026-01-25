@@ -1,0 +1,37 @@
+.TH compactuuid 1 "January 2026" "CompactUUID" "User Commands"
+.SH NAME
+compactuuid \- generate compact UUID strings in various formats
+.SH SYNOPSIS
+.B compactuuid
+.RI [ --format " format" ]
+.SH DESCRIPTION
+compactuuid prints a newly generated compact UUID string to standard output.
+
+.SH OPTIONS
+.TP
+.BR -f ", " --format " " \fIformat\fR
+Select output format. Valid values:
+base58, base64, urlSafe75, cookie90, emojis.
+Default is base58.
+.TP
+.BR -h ", " --help
+Show help information.
+
+.SH EXAMPLES
+.TP
+.B compactuuid
+Generate a base58 compact UUID.
+.TP
+.B compactuuid --format emojis
+Generate an emoji-based compact UUID.
+
+.SH EXIT STATUS
+.TP
+.B 0
+Success.
+.TP
+.B >0
+An error occurred (invalid arguments, etc.).
+
+.SH SEE ALSO
+.BR uuidgen (1)
