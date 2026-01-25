@@ -1,17 +1,17 @@
 # ``CompactUUID``
 
-Generate compact, human-friendly string representations of `UUID`, with multiple alphabets for readability, URL safety, cookies, or even emojis.
+Generate compact string representations of `UUID`, with multiple alphabets for human-friendly readability, URL safety, cookies, or even emojis. Usable as a Swift package library or as a command line interface (CLI) tool.
 
 ## Overview
 
 `CompactUUID` is built around ``CompactUUIDGenerator``:
 
-- Generate new compact IDs with ``CompactUUIDGenerator/generate()``
+- Generate random new compact IDs with ``CompactUUIDGenerator/generate()``
 - Convert compact IDs back into `UUID` with ``CompactUUIDGenerator/toUUID(_:)``
-- Encode a known `UUID` with ``CompactUUIDGenerator/fromUUID(_:)``
-- Choose an alphabet using ``CompactUUIDGenerator/Format``
+- Encode a known `UUID` to a compact ID with ``CompactUUIDGenerator/fromUUID(_:)``
+- The available formats are enumerated by ``CompactUUIDGenerator/Format``
 
-For convenience, the package also includes `String` factory properties for common formats (for example ``Swift/String/idBase58``).
+For convenience, the library also includes `String` factory properties for common formats that enable the use of compact dot notation. For example, ``Swift/String/idBase58``.
 
 ## Choosing a format
 
