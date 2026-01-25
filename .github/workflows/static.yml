@@ -26,70 +26,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Swift version
+      - name: Toolchain versions
         run: |
-          xcodebuild -version
           swift --version
 
-      - name: List schemes
-        run: xcodebuild -list
-        
-      # Build a DocC archive using Xcode's docbuild action.
-      - name: Build DocC archive
+      - name: Generate DocC (static hosting)
         run: |
           set -euo pipefail
-          # For Swift packages, this works when the package is opened by Xcode.
-          xcodebuild docbuild \
-            -scheme CompactUUID \
-            -destination "generic/platform=macOS" \
-            -derivedDataPath .build/DerivedData \
-            DOCC_HOSTING_BASE_PATH="CompactUUID"
-
-      - name: Transform for static hosting
-        run: |
-          set -euo pipefail
-
-          echo "==> Available docc archives:"
-          find .build/DerivedData -type d -name "*.doccarchive" -print || true
-
-          # Pick the archive for *your* module explicitly.
-          ARCHIVE_PATH="$(find .build/DerivedData -type d -name "CompactUUID.doccarchive" | head -n 1)"
-          if [[ -z "${ARCHIVE_PATH}" ]]; then
-            echo "ERROR: Could not find CompactUUID.doccarchive"
-            exit 1
-          fi
-
-          echo "==> Using DocC archive: ${ARCHIVE_PATH}"
 
           OUTPUT_DIR=".build/docc-site"
           rm -rf "${OUTPUT_DIR}"
           mkdir -p "${OUTPUT_DIR}"
 
-          xcrun docc process-archive transform-for-static-hosting \
-            "${ARCHIVE_PATH}" \
+          # This subcommand is provided by swift-docc-plugin.
+          swift package \
+            --allow-writing-to-directory "${OUTPUT_DIR}" \
+            generate-documentation \
+            --target CompactUUID \
             --output-path "${OUTPUT_DIR}" \
-            --hosting-base-path "CompactUUID"
+            --transform-for-static-hosting \
+            --hosting-base-path "${{ github.event.repository.name }}"
 
+          # Avoid any Pages/Jekyll edge cases
+          touch "${OUTPUT_DIR}/.nojekyll"
+
+          # Sanity checks
           test -f "${OUTPUT_DIR}/index.html"
 
-      - name: Verify DocC site contents
-        run: |
-          set -euo pipefail
-          echo "==> Listing .build/docc-site:"
-          ls -la .build/docc-site
-
-          echo "==> Looking for expected app assets:"
-          ls -la .build/docc-site/index*.js  || true
-          ls -la .build/docc-site/index*.css || true
-          ls -la .build/docc-site/chunk-*.js || true
-
-          echo "==> Must-have files:"
-          test -f .build/docc-site/index.html
-          # At least one JS bundle should exist:
-          ls .build/docc-site/*.js >/dev/null
-          # At least one CSS bundle should exist:
-          ls .build/docc-site/*.css >/dev/null
-          
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
