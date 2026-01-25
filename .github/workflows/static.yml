@@ -1,0 +1,58 @@
+name: Deploy DocC to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: macos-15
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Optional, but helps you see what Swift you're using in CI
+      - name: Swift version
+        run: swift --version
+
+      - name: Build DocC
+        run: |
+          set -euo pipefail
+          DOCS_DIR=".build/docc"
+
+          swift package \
+            --allow-writing-to-directory "${DOCS_DIR}" \
+            generate-documentation \
+            --target CompactUUID \
+            --output-path "${DOCS_DIR}" \
+            --transform-for-static-hosting
+
+          # DocC outputs an index.html at the root when transformed for static hosting.
+          test -f "${DOCS_DIR}/index.html"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .build/docc
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
