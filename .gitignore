@@ -1,0 +1,22 @@
+# Swift Package Manager (root artifacts)
+/.build/
+/.swiftpm/
+/Package.resolved
+
+# Xcode projects/workspaces (root only)
+*.xcodeproj
+*.xcworkspace
+
+# Xcode user data and build output (anywhere)
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcbkptlist
+
+# macOS
+.DS_Store
+
+# Temporary
+*.swp
+*.log
+*.tmp
