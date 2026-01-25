@@ -1,6 +1,6 @@
 # ``CompactUUID``
 
-Generate compact string representations of `UUID`, with multiple alphabets for human-friendly readability, URL safety, cookies, or even emojis. Usable as a Swift package library or as a command line interface (CLI) tool.
+Generate compact string representations of `UUID`, with multiple formats for human-friendly readability, URL safety, cookies, or even emojis. Usable as a Swift package library or as a command line interface (CLI) tool.
 
 ## Overview
 
