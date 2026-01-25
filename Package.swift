@@ -1,13 +1,11 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.1
 import PackageDescription
 
 let package = Package(
     name: "CompactUUID",
     platforms: [
-        .macOS(.v15),
-        .iOS(.v15),
-        .tvOS(.v15),
-        .watchOS(.v8)
+        .macOS(.v14),
+        .iOS(.v17)
     ],
     products: [
         .library(name: "CompactUUID", targets: ["CompactUUID"])
