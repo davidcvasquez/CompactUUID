@@ -44,32 +44,33 @@ jobs:
             -destination "generic/platform=macOS" \
             -derivedDataPath .build/DerivedData
 
-      # Transform the .doccarchive into a static site for GitHub Pages.
       - name: Transform for static hosting
         run: |
           set -euo pipefail
 
-          ARCHIVE_PATH="$(find .build/DerivedData -type d -name "*.doccarchive" | head -n 1)"
+          echo "==> Available docc archives:"
+          find .build/DerivedData -type d -name "*.doccarchive" -print || true
+
+          # Pick the archive for *your* module explicitly.
+          ARCHIVE_PATH="$(find .build/DerivedData -type d -name "CompactUUID.doccarchive" | head -n 1)"
           if [[ -z "${ARCHIVE_PATH}" ]]; then
-            echo "ERROR: No .doccarchive found under .build/DerivedData"
-            find .build/DerivedData -maxdepth 6 -type d -name "*.doccarchive" -print || true
+            echo "ERROR: Could not find CompactUUID.doccarchive"
             exit 1
           fi
 
-          echo "Found DocC archive: ${ARCHIVE_PATH}"
+          echo "==> Using DocC archive: ${ARCHIVE_PATH}"
 
           OUTPUT_DIR=".build/docc-site"
           rm -rf "${OUTPUT_DIR}"
           mkdir -p "${OUTPUT_DIR}"
 
-          # 'docc' is bundled with Xcode.
           xcrun docc process-archive transform-for-static-hosting \
             "${ARCHIVE_PATH}" \
             --output-path "${OUTPUT_DIR}" \
             --hosting-base-path "CompactUUID"
 
           test -f "${OUTPUT_DIR}/index.html"
-
+          
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
