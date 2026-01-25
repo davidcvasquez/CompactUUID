@@ -32,24 +32,26 @@ DEST_MAN_DIR="/usr/local/share/man/man1"
 
 SRC_MAN_PATH="ManPages/${MAN_NAME}"
 
-echo "==> Building release binary target: ${EXEC_TARGET_NAME} ..."
-swift build -c release --target "${EXEC_TARGET_NAME}"
+fail() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
 
-# SwiftPM outputs the binary named after the target.
-SRC_BIN_PATH=".build/release/${EXEC_TARGET_NAME}"
+echo "==> Building release..."
+swift build -c release
 
-#SwiftPM outputs the binary named after the target.
-SRC_BIN_PATH=".build/release/${EXEC_TARGET_NAME}"
+BIN_DIR="$(swift build -c release --show-bin-path)"
+SRC_BIN_PATH="${BIN_DIR}/${EXEC_TARGET_NAME}"
 
 if [[ ! -f "$SRC_BIN_PATH" ]]; then
   echo "ERROR: Expected binary not found at: $SRC_BIN_PATH"
+  echo "       (bin dir reported by SwiftPM: $BIN_DIR)"
+  echo "       Contents:"
+  ls -la "$BIN_DIR" || true
   exit 1
 fi
 
-if [[ ! -f "$SRC_MAN_PATH" ]]; then
-  echo "ERROR: Expected man page not found at: $SRC_MAN_PATH"
-  exit 1
-fi
+[[ -f "$SRC_MAN_PATH" ]] || fail "Expected man page not found at: $SRC_MAN_PATH"
 
 echo "==> Installing binary to ${DEST_BIN_DIR}/${INSTALL_BIN_NAME}"
 sudo mkdir -p "$DEST_BIN_DIR"
