@@ -50,6 +50,26 @@ jobs:
           # Avoid any Pages/Jekyll edge cases
           touch "${OUTPUT_DIR}/.nojekyll"
 
+           # Root redirect so /CompactUUID/ works.
+           cat > "${OUTPUT_DIR}/index.html" <<'HTML'
+           <!doctype html>
+           <html lang="en">
+             <head>
+               <meta charset="utf-8" />
+               <meta http-equiv="refresh" content="0; url=documentation/compactuuid/" />
+               <link rel="canonical" href="documentation/compactuuid/" />
+               <meta name="viewport" content="width=device-width, initial-scale=1" />
+               <title>CompactUUID Documentation</title>
+             </head>
+             <body>
+               <p>
+                 Redirecting to
+                 <a href="documentation/compactuuid/">CompactUUID documentation</a>…
+               </p>
+             </body>
+          </html>
+          HTML
+    
           # Sanity checks
           test -f "${OUTPUT_DIR}/index.html"
 
