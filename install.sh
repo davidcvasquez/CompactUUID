@@ -19,17 +19,27 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
-BIN_NAME="compactuuid"
+# What the intalled command should be named:
+INSTALL_BIN_NAME="compactuuid"
+
+# The SwiftPM executable *target* name
+EXEC_TARGET_NAME="CompactUUIDCLI"
+
 MAN_NAME="compactuuid.1"
 
 DEST_BIN_DIR="/usr/local/bin"
 DEST_MAN_DIR="/usr/local/share/man/man1"
 
-SRC_BIN_PATH=".build/release/${BIN_NAME}"
 SRC_MAN_PATH="ManPages/${MAN_NAME}"
 
-echo "==> Building release binary..."
-swift build -c release
+echo "==> Building release binary target: ${EXEC_TARGET_NAME} ..."
+swift build -c release --target "${EXEC_TARGET_NAME}"
+
+# SwiftPM outputs the binary named after the target.
+SRC_BIN_PATH=".build/release/${EXEC_TARGET_NAME}"
+
+#SwiftPM outputs the binary named after the target.
+SRC_BIN_PATH=".build/release/${EXEC_TARGET_NAME}"
 
 if [[ ! -f "$SRC_BIN_PATH" ]]; then
   echo "ERROR: Expected binary not found at: $SRC_BIN_PATH"
@@ -41,9 +51,9 @@ if [[ ! -f "$SRC_MAN_PATH" ]]; then
   exit 1
 fi
 
-echo "==> Installing binary to ${DEST_BIN_DIR}/${BIN_NAME}"
+echo "==> Installing binary to ${DEST_BIN_DIR}/${INSTALL_BIN_NAME}"
 sudo mkdir -p "$DEST_BIN_DIR"
-sudo install -m 0755 "$SRC_BIN_PATH" "$DEST_BIN_DIR/$BIN_NAME"
+sudo install -m 0755 "$SRC_BIN_PATH" "$DEST_BIN_DIR/$INSTALL_BIN_NAME"
 
 echo "==> Installing man page to ${DEST_MAN_DIR}/${MAN_NAME}"
 sudo mkdir -p "$DEST_MAN_DIR"
@@ -52,5 +62,5 @@ sudo install -m 0644 "$SRC_MAN_PATH" "$DEST_MAN_DIR/$MAN_NAME"
 echo "==> Done."
 echo
 echo "Try:"
-echo "  ${BIN_NAME} --help"
-echo "  man ${BIN_NAME}"
+echo "  ${INSTALL_BIN_NAME} --help"
+echo "  man ${INSTALL_BIN_NAME}"
