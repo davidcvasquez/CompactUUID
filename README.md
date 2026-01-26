@@ -1,6 +1,6 @@
 # CompactUUID
 
-[![Swift](https://github.com/davidcvasquez/CompactUUID/actions/workflows/swift.yml/badge.svg)](https://github.com/davidcvasquez/CompactUUID/actions/workflows/swift.yml)
+[![Swift](https://github.com/davidcvasquez/CompactUUID/actions/workflows/swift.yml/badge.svg)](https://github.com/davidcvasquez/CompactUUID/actions/workflows/swift.yml) [![codecov](https://codecov.io/github/davidcvasquez/CompactUUID/graph/badge.svg?token=1GBPU6S4L6)](https://codecov.io/github/davidcvasquez/CompactUUID)
 
 An expanded version of Jeroen Rikhof's [ShortUUID](https://github.com/jrikhof/short-uuid-swift/tree/master) library package for Swift, with these additions\:
 
@@ -14,7 +14,7 @@ CompactUUID starts with RFC4122 v4-compliant UUIDs and translates them into more
 
 The CLI tool provides full access to every feature in CompactUUID.
 
-Comprehensive unit tests currently provide 100% code coverage.
+Comprehensive unit tests provide 100% code coverage as of the 1.1.0 release.
 
 ## Usage
 
