@@ -1,22 +1,24 @@
 # CompactUUID
 
-An expanded version of Jeroen Rikhof's ShortUUID library package for Swift\:
+[![Swift](https://github.com/davidcvasquez/CompactUUID/actions/workflows/swift.yml/badge.svg)](https://github.com/davidcvasquez/CompactUUID/actions/workflows/swift.yml)
 
-https://github.com/jrikhof/short-uuid-swift/tree/master
+An expanded version of Jeroen Rikhof's [ShortUUID](https://github.com/jrikhof/short-uuid-swift/tree/master) library package for Swift, with these additions\:
 
-Provides `String` extensions that enable using compact dot notation to select which format to use.
-
-Additional formats are also provided, which trade off readability for increased compactness.
-
-A command line interface tool is also available, with numerous format and conversion options.
+- `String` extensions enable using compact dot notation to select which format to use.
+- Additional formats that trade off readability for increased compactness.
+- A command line interface (CLI) tool with numerous format and conversion options.
 
 ## Details
 
-CompactUUID starts with RFC4122 v4-compliant UUIDs and translates them into more compact formats. It also provides translators to convert back and forth from RFC complaint UUIDs to the compact formats.
+CompactUUID starts with RFC4122 v4-compliant UUIDs and translates them into more compact formats. It also provides translators to convert back and forth between RFC complaint UUIDs and the compact formats.
+
+The CLI tool provides full access to every feature in CompactUUID.
+
+Comprehensive unit tests currently provide 100% code coverage.
 
 ## Usage
 
-Import CompactUUID into your Swift code using its module name\:
+Add CompactUUID to your package dependencies and then import the `CompactUUID` module into your Swift code\:
 ```Swift
 import CompactUUID
 ```
