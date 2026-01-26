@@ -6,7 +6,8 @@ An expanded version of Jeroen Rikhof's [ShortUUID](https://github.com/jrikhof/sh
 
 - `String` extensions enable using compact dot notation to select which format to use.
 - Additional formats that trade off readability for increased compactness.
-- A command line interface (CLI) tool with numerous format and conversion options.
+- A command line interface (CLI) tool, named `compactuuid`, with numerous format and conversion options.
+- An Xcode Source Editor extension, named `xcCompactUUID`, with Editor menu commands to insert compact UUIDs in each of the supported formats.
 
 ## Details
 
@@ -97,6 +98,60 @@ man compactuuid
 ```
 
 The CLI tool also has `allFormats`, `toUUID`, `fromUUID` and `alphabet` options, with built-in help for more details.
+
+## Xcode Source Editor extension
+
+### Building the extension
+First change the Team and Bundle Identifier to your personal developer account, under the Signing & Capabilities settings for both the xcHostApp and xcCompactUUID targets.
+
+Installing an Xcode Source Editor extension can be a little tricky the first time its run, so here are some steps to follow if it fails to register in Xcode\:
+
+1. Check the embedding settings
+
+By default, Xcode templates often set the XcodeKit framework to `Do Not Embed`, which prevents the host from loading it.
+Select your Extension Target in your primary Xcode.
+Go to General > Frameworks and Libraries.
+Find XcodeKit.framework.
+Change the `Embed` status to `Embed & Sign`.
+
+Crucial\: If you see `Cocoa.framework` in this list, ensure it remains as `Do Not Embed`. 
+
+2. Disable Hardened Runtime for Testing
+ 
+On modern macOS versions (Sequoia/Tahoe 2026), the Hardened Runtime can block the debugger or the host from loading unsigned or development-signed extensions.
+Select your Extension Target > Signing & Capabilities.
+Locate `Hardened Runtime` and click the "X" to remove it temporarily for your debug session.
+If you must keep it on, ensure `Allow Execution of JIT-compiled Code` and `Allow Unsigned Executable Memory` are checked. 
+
+3. Verify Info.plist Definitions
+
+(These entries should already be set up if you have not recreated the extension project.)
+
+The Editor menu builds itself dynamically based on the extension's Info.plist. If this file is malformed, the menu won't appear.
+Open the extension's Info.plist (or use the Info tab in the target settings).
+Ensure there is a dictionary under NSExtension > XCSourceEditorCommandDefinitions.
+Each command must have\: 
+- `XCSourceEditorCommandIdentifier`\: A unique string.
+- `XCSourceEditorCommandClassName`\: The exact name of your command class (including the module name if necessary, e.g., `$(PRODUCT_MODULE_NAME).SourceEditorCommand`).
+- `XCSourceEditorCommandName`\: The text you want to see in the menu.
+
+4. Restart the Host Instance
+
+The Editor menu is often "frozen" once the host Xcode launches.
+Quit the host instance of Xcode (the one with the gray icon).
+In your primary Xcode, press Cmd + R again to launch a fresh host instance.
+Open a `.swift` or `.m` file immediately in the new host instance and check the Editor menu. 
+
+### Usage
+After you have installed the extension in Xcode, look in the Editor menu for a command group named `xcCompactUUID`.
+
+The extension provides menu commands to insert compact UUIDs in each of the supported formats\:
+
+- Insert Compact UUID • Base 58
+- Insert Compact UUID • Base 64
+- Insert Compact UUID • URL Safe Base 75 
+- Insert Compact UUID • Cookie Base 90
+- Insert Compact UUID • Emojis
 
 ## Supported Versions
 

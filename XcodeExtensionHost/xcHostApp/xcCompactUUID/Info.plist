@@ -30,7 +30,7 @@
 					<key>XCSourceEditorCommandIdentifier</key>
 					<string>$(PRODUCT_BUNDLE_IDENTIFIER).InsertURLSafeBase75</string>
 					<key>XCSourceEditorCommandName</key>
-					<string>Insert Compact UUID • URL Safe 75</string>
+					<string>Insert Compact UUID • URL Safe Base 75</string>
 				</dict>
 				<dict>
 					<key>XCSourceEditorCommandClassName</key>
