@@ -1,37 +1,91 @@
-.TH compactuuid 1 "January 2026" "CompactUUID" "User Commands"
+.TH COMPACTUUID 1 "January 2026" "CompactUUID" "User Commands"
 .SH NAME
-compactuuid \- generate compact UUID strings in various formats
+compactuuid \- generate or convert compact UUID strings
 .SH SYNOPSIS
 .B compactuuid
-.RI [ --format " format" ]
+.RI [ options ]
 .SH DESCRIPTION
-compactuuid prints a newly generated compact UUID string to standard output.
+.B compactuuid
+generates random compact UUID strings in one of several formats, or converts to and from full UUID strings.
 
 .SH OPTIONS
 .TP
-.BR -f ", " --format " " \fIformat\fR
-Select output format. Valid values:
-base58, base64, urlSafe75, cookie90, emojis.
-Default is base58.
+.BR \-f ", " \-\-format " " \fIFORMAT\fR
+Set the compact UUID string format.
+Default is \fBbase58\fR.
+Valid values: \fBbase58\fR, \fBbase64\fR, \fBurlSafeBase75\fR, \fBcookieBase90\fR, \fBemojis\fR.
+The format value is case-insensitive.
+
 .TP
-.BR -h ", " --help
+.BR \-a ", " \-\-allFormats ", " \-\-allformats
+Generate a compact UUID for every format.
+Can be combined with \fB\-\-fromUUID\fR to convert the same full UUID into each compact format.
+
+.TP
+.BR \-\-fromUUID " " \fIfullUUID\fR
+Convert a full UUID string (with hyphens) into a compact UUID string using the selected format.
+
+.TP
+.BR \-t ", " \-\-toUUID " " \fIcompactUUID\fR
+Convert a compact UUID string into a full UUID string (with hyphens) using the selected format.
+If conversion fails, prints \fBInvalid format.\fR
+
+.TP
+.BR \-\-alphabet ", " \-\-alpha
+Print the alphabet for the selected format.
+Can be combined with other modes (for example, to also print the alphabet after generating output).
+
+.TP
+.BR \-h ", " \-\-help
 Show help information.
 
 .SH EXAMPLES
 .TP
+Generate a random compact UUID (default format base58):
+.RS
 .B compactuuid
-Generate a base58 compact UUID.
+.RE
+
 .TP
-.B compactuuid --format emojis
-Generate an emoji-based compact UUID.
+Generate a random compact UUID in base64:
+.RS
+.B compactuuid --format base64
+.RE
+
+.TP
+Convert a full UUID to a compact UUID:
+.RS
+.B compactuuid --fromUUID 550E8400-E29B-41D4-A716-446655440000
+.RE
+
+.TP
+Convert a compact UUID back to a full UUID:
+.RS
+.B compactuuid --toUUID <compactUUID>
+.RE
+
+.TP
+Generate one UUID per format:
+.RS
+.B compactuuid --allFormats
+.RE
+
+.TP
+Convert the same full UUID into every compact format:
+.RS
+.B compactuuid --allFormats --fromUUID 550E8400-E29B-41D4-A716-446655440000
+.RE
+
+.TP
+Print the alphabet for the emojis format:
+.RS
+.B compactuuid --format emojis --alphabet
+.RE
 
 .SH EXIT STATUS
-.TP
-.B 0
-Success.
-.TP
-.B >0
-An error occurred (invalid arguments, etc.).
+.B compactuuid
+exits with status 0 on success.
+Invalid inputs may still produce output messages (for example, invalid UUID strings or invalid compact UUID format).
 
 .SH SEE ALSO
 .BR uuidgen (1)
