@@ -8,10 +8,9 @@ Provides `String` extensions that enable using compact dot notation to select wh
 
 Additional formats are also provided, which trade off readability for increased compactness.
 
-A command line interface tool is also available, with a "--format" option.
+A command line interface tool is also available, with numerous format and conversion options.
 
 ## Details
-
 
 CompactUUID starts with RFC4122 v4-compliant UUIDs and translates them into more compact formats. It also provides translators to convert back and forth from RFC complaint UUIDs to the compact formats.
 
@@ -94,6 +93,8 @@ Access the CLI tool's built-in help or the man page as follows\:
 compactuuid --help
 man compactuuid
 ```
+
+The CLI tool also has `allFormats`, `toUUID`, `fromUUID` and `alphabet` options, with built-in help for more details.
 
 ## Supported Versions
 
