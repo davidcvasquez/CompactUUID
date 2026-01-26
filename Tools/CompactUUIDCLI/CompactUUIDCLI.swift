@@ -85,21 +85,16 @@ struct CompactUUIDCLI: ParsableCommand {
     // Prints all formats, optionally for a given full UUID, and optionally with the alphabet.
     func printAllFormatsIfOptioned() -> Bool {
         if allFormats {
-            var uuid: UUID?
-            if let fromUUID {
-                // Protect a later forced optional on uuid by exiting early if the guard fails.
-                guard let _uuid = UUID(uuidString: fromUUID) else {
-                    print("Invalid UUID string: \(fromUUID)")
-                    return true
-                }
-                uuid = _uuid
+            let uuid = fromUUID.flatMap { str in UUID(uuidString: str) }
+            if let fromUUID, uuid == nil {
+                print("Invalid UUID string: \(fromUUID)")
+                return true
             }
 
             for format in CompactUUIDGenerator.Format.allCases {
                 let generator = CompactUUIDGenerator(format: format)
-                if let fromUUID {
-                    // This forced optional is protected by the guard on the UUID result.
-                    print(generator.fromUUID(uuid!))
+                if let uuid {
+                    print("\(format.rawValue): \(generator.fromUUID(uuid))")
                 }
                 else {
                     print("\(format.rawValue): \(generator.generate())")
