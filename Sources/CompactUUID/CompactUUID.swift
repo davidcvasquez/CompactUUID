@@ -20,7 +20,6 @@ import ArgumentParser
 public typealias UUIDBase58 = String
 
 nonisolated public extension UUIDBase58 {
-    /// Usage:
     /// ```
     /// struct MyType: Identifiable {
     ///     let id: UUIDBase58 = .idBase58
