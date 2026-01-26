@@ -71,12 +71,22 @@ This installs the CLI executable and a man page\:
 - `/usr/local/bin/compactuuid`
 - `/usr/local/share/man/man1/compactuuid.1`
 
-Verify the CLI tool is working with the `format` parameter, which defaults to base58\:
+Verify the CLI tool is working, with and without the `format` parameter, which defaults to base58\:
 ```bash
+compactuuid
+fBLNpfEWWaHJ3GKGH3P9xs
+
 compactuuid --format base64
+BW07Okov5OrYLQPqHMD+j3
+
 compactuuid --format urlSafeBase75
+EVJpM-y*yfN5'p)99*Ox(
+
 compactuuid --format cookieBase90
-compactuuid --format emoji
+8UGp?BsRvMeKJ6/p':zi
+
+compactuuid --format emojis
+🌎🎺🤩🧷🦎🐔🚝💞🥿💄🐛🕋📧
 ```
 
 Access the CLI tool's built-in help or the man page as follows\:
