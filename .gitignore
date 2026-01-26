@@ -4,7 +4,7 @@
 /Package.resolved
 
 # Xcode projects/workspaces (root only)
-*.xcodeproj
+# *.xcodeproj
 *.xcworkspace
 
 # Xcode user data and build output (anywhere)
