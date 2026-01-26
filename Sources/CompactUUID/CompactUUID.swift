@@ -252,4 +252,14 @@ extension String {
 }
 
 // Teach ArgumentParser how to parse CompactUUIDGenerator.Format cases, such as ".base58".
-extension CompactUUIDGenerator.Format: ExpressibleByArgument { }
+extension CompactUUIDGenerator.Format: ExpressibleByArgument {
+    public init?(argument: String) {
+        let needle = argument.lowercased()
+
+        guard let match = Self.allCases.first(where: { $0.rawValue.lowercased() == needle }) else {
+            return nil
+        }
+
+        self = match
+    }
+}
