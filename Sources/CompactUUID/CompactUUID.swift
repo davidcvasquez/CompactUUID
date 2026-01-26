@@ -148,6 +148,12 @@ nonisolated public final class CompactUUIDGenerator {
         }
     }
 
+	// This method can only be called by unit tests - it's not in the public API.
+    // This capability helps to prevent unhandled edge cases when more formats are added.
+    internal func clearAlphabet() {
+        self.alphabet = ""
+    }
+	
     /// - Returns: The original UUID, decoded from its compact representation.
     public func toUUID(_ compactID: String) -> UUID? {
         let uu1: String
@@ -225,7 +231,7 @@ nonisolated public final class CompactUUIDGenerator {
 }
 
 extension String {
-    /// - Returns: A hypenated version of a full UUID string. Must be exactly 32 characters or the result is nil.
+    /// - Returns: A hypenated version of a full UUID string. Must be exactly 32 characters or the result is the same string.
     nonisolated func withUUIDHyphens() -> String {
         guard !contains("-"), count == 32 else {
             return self
