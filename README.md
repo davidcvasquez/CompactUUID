@@ -18,11 +18,11 @@ The expanded set of formats includes\:
 
 | Format | Description |
 | :----- | ----------- |
-| base58 | A human-friendly format that omits characters prone to typos. |
-| base64 | A more compact standard format that includes all letters and numeric digits. |
-| urlSafeBase75 | URL-safe characters |
-| cookieBase90 | Maximum ASCII compactness for use as cookies |
-| emojis[^note1] | A curated set of renderable emoji characters. |
+| `base58` | A human-friendly format that omits characters prone to typos. |
+| `base64` | A more compact standard format that includes all letters and numeric digits. |
+| `urlSafeBase75` | URL-safe characters |
+| `cookieBase90` | Maximum ASCII compactness for use as cookies |
+| `emojis`[^note1] | A curated set of renderable emoji characters. |
 
 [^note1]: The `emojis` format is just for fun during development. Please don't use this format in production code. :wink:
 
