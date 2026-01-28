@@ -40,7 +40,7 @@ struct MyType: Identifiable {
 }
 ```
 
-You can also access a generator directly and translate between full and compact UUIDs\:
+Access a generator directly and translate between full and compact UUIDs using `toUUID` and `fromUUID`\:
 ```Swift
 let translator = CompactUUIDGenerator()
 let compactID = translator.generate()  // eGQRS1nM2t3E8xxcc2BhjA
@@ -48,11 +48,15 @@ let compactID = translator.generate()  // eGQRS1nM2t3E8xxcc2BhjA
 // Translate UUIDs to and from the shortened format
 translator.toUUID(compactID) // a44521d0-0fb8-4ade-8002-3385545c3318
 translator.fromUUID(UUID(uuidString: "a44521d0-0fb8-4ade-8002-3385545c3318")!) // mhvXdrZT4jP5T8vBxuvm75
+```
 
-// See the alphabet used by a translator
+Get the characters used by a given generator with `alphabet`\:
+```Swift
 translator.alphabet
+```
 
-// View the constants
+Directly access the alphabets for each format using the format name on `CompactUUIDGenerator`\:
+```Swift
 CompactUUIDGenerator.base58 // Omits characters prone to typos; lowercase "l", zero, and uppercase "O".
 CompactUUIDGenerator.base64 // Compact standard format that includes all letters and numeric digits.
 CompactUUIDGenerator.urlSafeBase75 // URL-safe characters.
@@ -72,7 +76,7 @@ cd CompactUUID
 ./install.sh
 ```
 
-If you see “permission denied” when running install.sh, make it executable\:
+If you see “permission denied” when running `install.sh`, make the script file executable\:
 
 ```bash
 chmod +x install.sh
