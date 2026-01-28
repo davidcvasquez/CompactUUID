@@ -6,16 +6,25 @@ An expanded version of Jeroen Rikhof's [ShortUUID](https://github.com/jrikhof/sh
 
 - `String` extensions enable using compact dot notation to select which format to use.
 - Additional formats that trade off readability for increased compactness.
-- A command line interface (CLI) tool, named `compactuuid`, with numerous format and conversion options.
-- An Xcode Source Editor extension, named `xcCompactUUID`, with Editor menu commands to insert compact UUIDs in each of the supported formats.
+- A command line interface (CLI) tool, named `compactuuid`, with numerous format and conversion options. The `compactuuid` tool provides full access to every feature in CompactUUID.
+- An Xcode Source Editor extension, named `xcCompactUUID`, with Editor menu commands to insert compact UUIDs directly into source code, in each of the supported formats.
+- Comprehensive unit tests provide 100% code coverage as of the 1.1.1 release.
 
 ## Details
 
 CompactUUID starts with RFC4122 v4-compliant UUIDs and translates them into more compact formats. It also provides translators to convert back and forth between RFC complaint UUIDs and the compact formats.
 
-The CLI tool provides full access to every feature in CompactUUID.
+The expanded set of formats includes\:
 
-Comprehensive unit tests provide 100% code coverage as of the 1.1.0 release.
+| Format | Description |
+| :----- | ----------- |
+| base58 | A human-friendly format that omits characters prone to typos. |
+| base64 | A more compact standard format that includes all letters and numeric digits. |
+| urlSafeBase75 | URL-safe characters |
+| cookieBase90 | Maximum ASCII compactness for use as cookies |
+| emojis[^note1] | A curated set of renderable emoji characters. |
+
+[^note1]: The `emojis` format is just for fun during development. Please don't use this format in production code. :wink:
 
 ## Usage
 
